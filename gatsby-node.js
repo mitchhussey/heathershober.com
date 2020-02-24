@@ -3,18 +3,15 @@ const slash = require(`slash`);
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
-  // we use the provided allContentfulBlogPost query to fetch the data from Contentful
+  // we use the provided allContentfulMemory query to fetch the data from Contentful
   return graphql(
     `
       {
-        allContentfulBlogPost {
+        allContentfulMemory {
           edges {
             node {
               title
-              subtitle
-              description
               slug
-              date(formatString: "MMMM DD, YYYY")
             }
           }
         }
@@ -25,12 +22,12 @@ exports.createPages = ({ graphql, actions }) => {
         console.log("Error retrieving contentful data", result.errors);
       }
       // Resolve the paths to our template
-      const blogPostTemplate = path.resolve("./src/templates/blogpost.js");
+      const memoryTemplate = path.resolve("./src/templates/memory.js");
       // Then for each result we create a page.
-      result.data.allContentfulBlogPost.edges.forEach(edge => {
+      result.data.allContentfulMemory.edges.forEach(edge => {
         createPage({
-          path: `/blog/${edge.node.slug}/`,
-          component: slash(blogPostTemplate),
+          path: `/memories/${edge.node.slug}/`,
+          component: slash(memoryTemplate),
           context: {
 	          slug: edge.node.slug,
             id: edge.node.id

@@ -3,6 +3,7 @@ import { Link } from 'gatsby'
 import Helmet from 'react-helmet'
 import Layout from '../components/layout'
 import Banner from '../components/Banner'
+import * as Markdown from 'react-markdown'
 
 import pic01 from '../assets/images/pic01.jpg'
 import pic02 from '../assets/images/pic02.jpg'
@@ -13,81 +14,83 @@ import pic06 from '../assets/images/pic06.jpg'
 
 class HomeIndex extends React.Component {
     render() {
-
+      const recentMemories = this.props.data.allContentfulMemory.edges.map((edge) => edge.node)
+      const page = this.props.data.contentfulPage  
         return (
             <Layout>
                 <Helmet
-                    title="Gatsby Starter - Forty"
-                    meta={[
-                        { name: 'description', content: 'Sample' },
-                        { name: 'keywords', content: 'sample, something' },
-                    ]}
+                    title="Heather Hussey Shober"
                 >
                 </Helmet>
 
-                <Banner />
+                <Banner title={page.bannerTitle} subtitle={page.bannerSubtitle} image={page.bannerImage.file.url} showLinks={ true } />
 
                 <div id="main">
+                    { page.text && 
+                      <section id="two">
+                          <div className="inner"> 
+                              <section id="More">
+                              <div className="inner">
+                                  <Markdown className="blogBody" source={page.text.text}/>
+                              </div>
+                              </section>
+                          </div>
+                      </section>
+                    }
+                    <h3 className="inner">Memories of Heather</h3>
                     <section id="one" className="tiles">
-                        <article style={{backgroundImage: `url(${pic01})`}}>
+                    {recentMemories.map((memory, index) => {
+                      return (
+                        <article style={{ backgroundImage: `url(${memory.image.file.url})` }}>
+                          <Link to={`memories/${memory.slug}`}>
                             <header className="major">
-                                <h3>Aliquam</h3>
-                                <p>Ipsum dolor sit amet</p>
+                              <h3>{memory.title}</h3>
+                              <h4>{memory.author}</h4>
                             </header>
-                            <Link to="/landing" className="link primary"></Link>
+                          </Link>
+                          <Link to={`memories/${memory.slug}`} className="link primary"></Link>
                         </article>
-                        <article style={{backgroundImage: `url(${pic02})`}}>
-                            <header className="major">
-                                <h3>Tempus</h3>
-                                <p>feugiat amet tempus</p>
-                            </header>
-                            <Link to="/landing" className="link primary"></Link>
-                        </article>
-                        <article style={{backgroundImage: `url(${pic03})`}}>
-                            <header className="major">
-                                <h3>Magna</h3>
-                                <p>Lorem etiam nullam</p>
-                            </header>
-                            <Link to="/landing" className="link primary"></Link>
-                        </article>
-                        <article style={{backgroundImage: `url(${pic04})`}}>
-                            <header className="major">
-                                <h3>Ipsum</h3>
-                                <p>Nisl sed aliquam</p>
-                            </header>
-                            <Link to="/landing" className="link primary"></Link>
-                        </article>
-                        <article style={{backgroundImage: `url(${pic05})`}}>
-                            <header className="major">
-                                <h3>Consequat</h3>
-                                <p>Ipsum dolor sit amet</p>
-                            </header>
-                            <Link to="/landing" className="link primary"></Link>
-                        </article>
-                        <article style={{backgroundImage: `url(${pic06})`}}>
-                            <header className="major">
-                                <h3>Etiam</h3>
-                                <p>Feugiat amet tempus</p>
-                            </header>
-                            <Link to="/landing" className="link primary"></Link>
-                        </article>
+                      )
+                    })}
+                    
                     </section>
-                    <section id="two">
-                        <div className="inner">
-                            <header className="major">
-                                <h2>Massa libero</h2>
-                            </header>
-                            <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
-                            <ul className="actions">
-                                <li><Link to="/landing" className="button next">Get Started</Link></li>
-                            </ul>
-                        </div>
-                    </section>
+                    
                 </div>
 
             </Layout>
         )
     }
 }
+
+export const indexPageQuery = graphql
+`query IndexPageQuery {
+  contentfulPage(page: {eq: "Homepage"}) {
+    bannerSubtitle
+    bannerTitle
+    bannerImage {
+      file {
+        url
+      }
+    }
+    page
+    text {
+      text
+    }
+  }
+  allContentfulMemory {
+    edges {
+      node {
+        slug
+        title
+        author
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}`
 
 export default HomeIndex

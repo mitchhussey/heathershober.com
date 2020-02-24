@@ -7,13 +7,10 @@ const Menu = (props) => (
         <div className="inner">
             <ul className="links">
                 <li><Link onClick={props.onToggleMenu} to="/">Home</Link></li>
-                <li><Link onClick={props.onToggleMenu} to="/landing">Landing</Link></li>
-                <li><Link onClick={props.onToggleMenu} to="/generic">Generic</Link></li>
-                <li><Link onClick={props.onToggleMenu} to="/elements">Elements</Link></li>
-            </ul>
-            <ul className="actions vertical">
-                <li><a href="#" className="button special fit">Get Started</a></li>
-                <li><a href="#" className="button fit">Log In</a></li>
+                <li><Link onClick={props.onToggleMenu} to="/about">About Heather</Link></li>
+                {/* <li><Link onClick={props.onToggleMenu} to="/memories">Memories</Link></li> */}
+                {/* <li><Link onClick={props.onToggleMenu} to="/blog">Family Blog</Link></li> */}
+                <li><a href="https://www.afesupport.org/what-is-amniotic-fluid-embolism/">About AFE</a></li>
             </ul>
         </div>
         <a className="close" onClick={props.onToggleMenu} href="javascript:;">Close</a>

@@ -44,8 +44,10 @@
     }
 
     header {
+      background-color: rgba(255, 247, 255, 0.7);
+      padding: 20px;
       position: relative;
-      z-index: 3;
+      z-index: 37;
     }
 
     h3 {
@@ -110,41 +112,7 @@
       width: 60%;
     }
 
-    &:nth-child(6n - 5) {
-      &:before {
-        background-color: _palette(accent1);
-      }
-    }
-
-    &:nth-child(6n - 4) {
-      &:before {
-        background-color: _palette(accent2);
-      }
-    }
-
-    &:nth-child(6n - 3) {
-      &:before {
-        background-color: _palette(accent3);
-      }
-    }
-
-    &:nth-child(6n - 2) {
-      &:before {
-        background-color: _palette(accent4);
-      }
-    }
-
-    &:nth-child(6n - 1) {
-      &:before {
-        background-color: _palette(accent5);
-      }
-    }
-
-    &:nth-child(6n) {
-      &:before {
-        background-color: _palette(accent6);
-      }
-    }
+    
   }
 
   @include breakpoint(large) {
